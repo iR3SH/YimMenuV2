@@ -12,6 +12,8 @@
 #include "game/backend/Players.hpp"
 #include "game/gta/Vehicle.hpp"
 #include "types/network/sync/nodes/vehicle/CVehicleProximityMigrationDataNode.hpp"
+#include "game/gta/StatsEditor.hpp"
+#include "game/backend/AnticheatBypass.hpp"
 
 namespace YimMenu
 {
@@ -350,5 +352,21 @@ namespace YimMenu
 	bool Player::operator==(Player other)
 	{
 		return m_Handle == other.m_Handle;
+	}
+	void Player::AddMoney(int money)
+	{
+		if (AnticheatBypass::IsFSLLoaded())
+		{
+			int current_money = StatsEditor::GetStatInt("BANK_BALANCE");
+			StatsEditor::SetStatInt("BANK_BALANCE", current_money + money);
+		}
+	}
+	void Player::AddRP(int rp)
+	{
+		if (AnticheatBypass::IsFSLLoaded())
+		{
+			int current_rp = StatsEditor::GetStatInt("CHAR_XP_FM");
+			StatsEditor::SetStatInt("CHAR_XP_FM", current_rp + rp);
+		}
 	}
 }

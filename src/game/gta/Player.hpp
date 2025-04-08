@@ -57,6 +57,8 @@ namespace YimMenu
 		int GetRank();
 		int GetRP();
 		int GetMoney();
+		void AddMoney(int money);
+		void AddRP(int rp);
 
 		// wanted
 		int GetWantedLevel();

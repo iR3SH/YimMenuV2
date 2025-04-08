@@ -1,7 +1,7 @@
 #include "game/pointers/Pointers.hpp"
 #include "game/gta/Natives.hpp"
 #include "types/stats/CStatsMgr.hpp"
-#include <core/util/Joaat.hpp>
+#include "core/util/Joaat.hpp"
 
 namespace YimMenu::StatsEditor
 {
@@ -77,21 +77,29 @@ namespace YimMenu::StatsEditor
 	{
 		switch (data->GetType())
 		{
-		case sStatData::Type::_BOOL: STATS::STAT_SET_BOOL(hash, value.m_AsBool, true); break;
-		case sStatData::Type::FLOAT: STATS::STAT_SET_FLOAT(hash, value.m_AsFloat, true); return;
-		case sStatData::Type::INT:
-		case sStatData::Type::UINT32:
-		case sStatData::Type::UINT16:
-		case sStatData::Type::UINT8: STATS::STAT_SET_INT(hash, value.m_AsInt, true); return;
-		case sStatData::Type::INT64:
-			data->SetInt64(value.m_AsU64); // TODO this isn't a good idea! natives can't set this
-			return;
-		case sStatData::Type::UINT64:
-			STATS::STAT_SET_MASKED_INT(hash, (std::uint32_t)value.m_AsU64, 0, 32, true);
-			STATS::STAT_SET_MASKED_INT(hash, (std::uint32_t)(value.m_AsU64 >> 32), 32, 32, true);
-			return;
-		case sStatData::Type::STRING: STATS::STAT_SET_STRING(hash, value.m_AsString, true); return;
-		default: return; // data type not supported
+			case sStatData::Type::_BOOL:
+				STATS::STAT_SET_BOOL(hash, value.m_AsBool, true);
+				break;
+			case sStatData::Type::FLOAT: 
+				STATS::STAT_SET_FLOAT(hash, value.m_AsFloat, true);
+				return;
+			case sStatData::Type::INT:
+			case sStatData::Type::UINT32:
+			case sStatData::Type::UINT16:
+			case sStatData::Type::UINT8: 
+				STATS::STAT_SET_INT(hash, value.m_AsInt, true); 
+				return;
+			case sStatData::Type::INT64:
+				data->SetInt64(value.m_AsU64); // TODO this isn't a good idea! natives can't set this
+				return;
+			case sStatData::Type::UINT64:
+				STATS::STAT_SET_MASKED_INT(hash, (std::uint32_t)value.m_AsU64, 0, 32, true);
+				STATS::STAT_SET_MASKED_INT(hash, (std::uint32_t)(value.m_AsU64 >> 32), 32, 32, true);
+				return;
+			case sStatData::Type::STRING: STATS::STAT_SET_STRING(hash, value.m_AsString, true); 
+				return;
+			default:
+				return; // data type not supported
 		}
 	}
 	void ReadStat(StatValue& value, sStatData* data)
@@ -100,15 +108,27 @@ namespace YimMenu::StatsEditor
 
 		switch (data->GetType())
 		{
-		case sStatData::Type::_BOOL: value.m_AsBool = data->GetBool(); return;
-		case sStatData::Type::FLOAT: value.m_AsFloat = data->GetFloat(); return;
+		case sStatData::Type::_BOOL: 
+			value.m_AsBool = data->GetBool();
+			return;
+		case sStatData::Type::FLOAT: 
+			value.m_AsFloat = data->GetFloat();
+			return;
 		case sStatData::Type::INT:
 		case sStatData::Type::UINT32:
 		case sStatData::Type::UINT16:
-		case sStatData::Type::UINT8: value.m_AsInt = data->GetInt(); return;
-		case sStatData::Type::INT64: value.m_AsU64 = data->GetInt64(); return;
-		case sStatData::Type::UINT64: value.m_AsU64 = data->GetUInt64(); return;
-		case sStatData::Type::STRING: strncpy(value.m_AsString, data->GetString(), sizeof(value.m_AsString)); return;
+		case sStatData::Type::UINT8:
+			value.m_AsInt = data->GetInt();
+			return;
+		case sStatData::Type::INT64:
+			value.m_AsU64 = data->GetInt64();
+			return;
+		case sStatData::Type::UINT64: 
+			value.m_AsU64 = data->GetUInt64();
+			return;
+		case sStatData::Type::STRING:
+			strncpy(value.m_AsString, data->GetString(), sizeof(value.m_AsString));
+			return;
 		default: return; // data type not supported
 		}
 	}

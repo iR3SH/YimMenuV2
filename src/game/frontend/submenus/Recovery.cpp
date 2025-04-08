@@ -3,6 +3,7 @@
 #include "game/features/recovery/GiveVehicleReward.hpp"
 #include "Recovery/StatEditor.hpp"
 #include "Recovery/Transactions.hpp"
+#include "game/backend/Self.hpp"
 
 namespace YimMenu::Submenus
 {
@@ -11,6 +12,7 @@ namespace YimMenu::Submenus
 	{
 		auto shopping = std::make_shared<Category>("Shopping");
 		auto vehiclesGroup = std::make_shared<Group>("Vehicles");
+	
 
 		vehiclesGroup->AddItem(std::make_shared<BoolCommandItem>("dlcvehicles"_J));
 
@@ -25,6 +27,41 @@ namespace YimMenu::Submenus
 		}));
 
 		shopping->AddItem(vehiclesGroup);
+
+		// Start Currencies Changes
+		auto currenciesRP = std::make_shared<Category>("Currencies & PR");
+		auto currenciesGroup   = std::make_shared<Group>("Currencies");
+		
+		currenciesGroup->AddItem(std::make_unique<ImGuiItem>([] {
+			if (ImGui::Button("Add 10M$"))
+			{
+				Self::GetPlayer().AddMoney(10000000);
+			}
+		}));
+		currenciesRP->AddItem(currenciesGroup);
+
+		auto RPGroup = std::make_shared<Group>("RP");
+
+		RPGroup->AddItem(std::make_unique<ImGuiItem>([] {
+			if (ImGui::Button("Add 1K RP"))
+			{
+				Self::GetPlayer().AddRP(1000);
+			}
+		}));
+		RPGroup->AddItem(std::make_unique<ImGuiItem>([] {
+			if (ImGui::Button("Add 10K RP"))
+			{
+				Self::GetPlayer().AddRP(10000);
+			}
+		}));
+		RPGroup->AddItem(std::make_unique<ImGuiItem>([] {
+			if (ImGui::Button("Add 100K RP"))
+			{
+				Self::GetPlayer().AddRP(100000);
+			}
+		}));
+		currenciesRP->AddItem(RPGroup);
+
 		AddCategory(std::move(shopping));
 		AddCategory(BuildStatEditorMenu());
 		AddCategory(BuildTransactionsMenu());
