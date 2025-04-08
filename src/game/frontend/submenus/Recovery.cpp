@@ -12,7 +12,7 @@ namespace YimMenu::Submenus
 	{
 		auto shopping = std::make_shared<Category>("Shopping");
 		auto vehiclesGroup = std::make_shared<Group>("Vehicles");
-	
+		auto heistGroup = std::make_shared<Group>("Heist");
 
 		vehiclesGroup->AddItem(std::make_shared<BoolCommandItem>("dlcvehicles"_J));
 
@@ -25,6 +25,8 @@ namespace YimMenu::Submenus
 				}
 			}
 		}));
+		heistGroup->AddItem(std::make_shared<CommandItem>("skipcayosetup"_J));
+		heistGroup->AddItem(std::make_shared<CommandItem>("skipcayocooldown"_J));
 
 		shopping->AddItem(vehiclesGroup);
 
@@ -62,7 +64,9 @@ namespace YimMenu::Submenus
 		}));
 		currenciesRP->AddItem(RPGroup);
 
+		heist->AddItem(heistGroup);
 		AddCategory(std::move(shopping));
+		AddCategory(std::move(heist));
 		AddCategory(BuildStatEditorMenu());
 		AddCategory(BuildTransactionsMenu());
 	}
